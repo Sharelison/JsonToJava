@@ -1,0 +1,20 @@
+{
+  "name": "John",
+  "lastName": "Doe",
+  "children": [{
+    "name": "John jr",
+    "lastName": "Doe"
+  }],
+  "partner": {
+    "name": "www",
+    "lastName": "Doe",
+    "dog": {
+      "name": "sdf",
+      "age":23,
+      "partner": {
+        "dogname": "sdf",
+        "age": 25
+      }
+    }
+  }
+}
