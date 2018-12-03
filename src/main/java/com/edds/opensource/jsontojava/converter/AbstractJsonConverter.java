@@ -93,7 +93,7 @@ public abstract class AbstractJsonConverter implements JsonConverter{
         for(int i = 0; i < jsonArray.length(); i++) {
             PropertyType propertyType = PropertyTypeFinder.getPropertyType(jsonArray.get(i), jsonTypeChecker());
             if(SinglePropertyType.NEW.equals(propertyType)) {
-                String className = JavaClassBuilder.firstCharToUpperCase(key);
+                String className = getClassName(createdClasses, JavaClassBuilder.firstCharToUpperCase(key));
                 convert(javaClasses, value.toString(), className, packageName, createdClasses);
                 types.add(className);
             } else {
@@ -110,14 +110,14 @@ public abstract class AbstractJsonConverter implements JsonConverter{
         return type;
     }
 
-    private String getClassName(Map<String, Integer> registry, String key) {
+    private String getClassName(Map<String, Integer> createdClasses, String key) {
         String className = key;
 
-        Integer count = registry.get(key);
+        Integer count = createdClasses.get(key);
         if(count == null){
-            registry.put(key, 0);
+            createdClasses.put(key, 0);
         } else {
-            registry.put(key, ++count);
+            createdClasses.put(key, ++count);
             className = key + count;
         }
 
