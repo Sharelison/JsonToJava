@@ -1,6 +1,6 @@
-package integrationtest.expected;
+package integrationtest;
 
-public class Children{
+public class Children {
 
     private String lastName;
     private String name;

@@ -1,7 +1,7 @@
 package com.edds.opensource.jsontojava.converter.builder;
 
 import com.edds.opensource.jsontojava.converter.builder.enums.ComplexPropertyType;
-import com.edds.opensource.jsontojava.converter.builder.enums.SinglePropertyType;
+import com.edds.opensource.jsontojava.exception.JsonToJavaException;
 
 import java.util.HashSet;
 
@@ -28,8 +28,11 @@ public class JavaClassBuilder {
 
     private HashSet<String> propertyKeyNames;
 
+    private String className;
+
     public JavaClassBuilder(String className, String packagename) {
-        declareClass(className, packagename);
+        validClassNameAndPackageName(className, packagename);
+        declareClass(JavaClassBuilder.firstCharToUpperCase(className), packagename);
         properties = new StringBuilder();
         gettersAndSetters = new StringBuilder();
         importStatements = new StringBuilder();
@@ -37,34 +40,50 @@ public class JavaClassBuilder {
         propertyKeyNames = new HashSet<>();
     }
 
+    private void validClassNameAndPackageName(String className, String packagename) {
+        if(className == null || className.isEmpty() || packagename == null || packagename.isEmpty())
+            throw new JsonToJavaException("Class name or package name is empty");
+    }
+
     public String build() {
         return String.format(javaClassDeclaration, importStatements.toString(), properties.toString(), gettersAndSetters.toString());
     }
 
+    public String getClassName() {
+        return className;
+    }
+
     public void addProperty(String propertyName, String declareName) {
-        properties
-                .append(BIG_SPACE)
-                .append("private ")
-                .append(declareName)
-                .append(SPACE)
-                .append(propertyName)
-                .append(END_STATEMENT)
-                .append(NEW_LINE);
-        addGettersAndSetters(propertyName, declareName);
-        propertyKeyNames.add(propertyName);
+        propertyName = removeUnwantedCharacters(propertyName);
+        if(!propertyKeyNames.contains(propertyName)) {
+            properties
+                    .append(BIG_SPACE)
+                    .append("private ")
+                    .append(declareName)
+                    .append(SPACE)
+                    .append(propertyName)
+                    .append(END_STATEMENT)
+                    .append(NEW_LINE);
+            addGettersAndSetters(propertyName, declareName);
+            propertyKeyNames.add(propertyName);
+        }
     }
 
     public void addProperty(String propertyName, ComplexPropertyType complexPropertyType, String genericType) {
-        String declareName = String.format(complexPropertyType.getDeclareName(), genericType);
-        properties
-                .append(BIG_SPACE)
-                .append("private ")
-                .append(declareName)
-                .append(" ")
-                .append(propertyName)
-                .append(END_STATEMENT)
-                .append(NEW_LINE);
-        addGettersAndSetters(propertyName, declareName);
+        propertyName = removeUnwantedCharacters(propertyName);
+        if(!propertyKeyNames.contains(propertyName)) {
+            String declareName = String.format(complexPropertyType.getDeclareName(), genericType);
+            properties
+                    .append(BIG_SPACE)
+                    .append("private ")
+                    .append(declareName)
+                    .append(" ")
+                    .append(propertyName)
+                    .append(END_STATEMENT)
+                    .append(NEW_LINE);
+            addGettersAndSetters(propertyName, declareName);
+            propertyKeyNames.add(propertyName);
+        }
     }
 
     public void addImportStatement(String importStatement) {
@@ -74,18 +93,23 @@ public class JavaClassBuilder {
         }
     }
 
+    public boolean hasProperty(String propertyName) {
+        return propertyKeyNames.contains(propertyName);
+    }
+
     public static String firstCharToUpperCase(String propertyName) {
         return propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1);
     }
 
     private void declareClass(String className, String packagename) {
+        this.className = removeUnwantedCharacters(className);
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder
                 .append("package ").append(packagename).append(END_STATEMENT)
                 .append(DOUBLE_NEW_LINE)
                 .append("%s") //import statements
-                .append("public class ").append(className)
+                .append("public class ").append(className).append(SPACE)
                 .append(BLOCK_OPEN)
                 .append(DOUBLE_NEW_LINE)
                 .append("%s") //properties
@@ -119,5 +143,29 @@ public class JavaClassBuilder {
                 .append(NEW_LINE).append(BIG_SPACE)
                 .append(BLOCK_CLOSED)
                 .append(DOUBLE_NEW_LINE);
+    }
+
+    private String removeUnwantedCharacters(String className){
+        StringBuilder classStringBuilder = new StringBuilder();
+
+        char[] givenClassChars = className.toCharArray();
+        for(int i = 0; i < givenClassChars.length; i++){
+            char character = givenClassChars[i];
+            if(Character.isJavaIdentifierPart(character)) {
+                if(i == 0) {
+                    if(Character.isJavaIdentifierStart(character)) {
+                        classStringBuilder.append(character);
+                    }
+                } else {
+                    classStringBuilder.append(character);
+                }
+            }
+        }
+
+        if(classStringBuilder.length() == 0){
+            throw new JsonToJavaException("No valid characters in class name or property name");
+        }
+
+        return classStringBuilder.toString();
     }
 }

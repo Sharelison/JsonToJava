@@ -1,9 +1,11 @@
-package integrationtest.expected;
+package integrationtest;
 
-public class Partner{
+public class Partner {
 
     private String lastName;
     private String name;
+    private String dogName;
+    private Integer age;
     private Dog dog;
 
     public String getLastName(){
@@ -20,6 +22,22 @@ public class Partner{
 
     public void setName(String name){
         this.name = name;
+    }
+
+    public String getDogName(){
+        return this.dogName;
+    }
+
+    public void setDogName(String dogName){
+        this.dogName = dogName;
+    }
+
+    public Integer getAge(){
+        return this.age;
+    }
+
+    public void setAge(Integer age){
+        this.age = age;
     }
 
     public Dog getDog(){

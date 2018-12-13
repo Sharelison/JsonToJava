@@ -1,7 +1,5 @@
 package com.edds.opensource.jsontojava.converter.builder.enums;
 
-import com.edds.opensource.jsontojava.converter.builder.enums.PropertyType;
-
 public enum ComplexPropertyType implements PropertyType {
   
     LIST("List<%s>", "java.util.List", true);

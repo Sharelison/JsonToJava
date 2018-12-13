@@ -9,16 +9,18 @@ public class JsonFileReaderTest {
 
     JsonFileReader jsonFileReader = new JsonFileReader();
 
+    private String newLine = System.lineSeparator();
+
     @Test
     public void readJsonFromFileShouldReturnExpectedFileContent() {
         //path/path/testfile/exampleObject.json
-        String expectedJson = "{\n" +
-                "  \"field1\": \"asdf df\",\n" +
-                "  \"field4\": 32,\n" +
-                "  \"exampleObject2\": {\n" +
-                "    \"field3\": 32,\n" +
-                "    \"field5\": \"Awoo\"\n" +
-                "  }\n" +
+        String expectedJson = "{"+newLine +
+                "  \"field1\": \"asdf df\","+newLine +
+                "  \"field4\": 32,"+newLine +
+                "  \"exampleObject2\": {"+newLine +
+                "    \"field3\": 32,"+newLine +
+                "    \"field5\": \"Awoo\""+newLine +
+                "  }"+newLine +
                 "}";
 
         String actualJson = jsonFileReader.readJsonFromFile(JsonToJavaTestConstants.JSON_OBJECT_FILE_PATH);

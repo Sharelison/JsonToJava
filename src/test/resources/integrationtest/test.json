@@ -12,7 +12,7 @@
       "name": "sdf",
       "age":23,
       "partner": {
-        "dogname": "sdf",
+        "dogName": "sdf",
         "age": 25
       }
     }

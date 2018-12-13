@@ -1,8 +1,8 @@
-package integrationtest.expected;
+package integrationtest;
 
 import java.util.List;
 
-public class Person{
+public class Person {
 
     private String lastName;
     private Partner partner;

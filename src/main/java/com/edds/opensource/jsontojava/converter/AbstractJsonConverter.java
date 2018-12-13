@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class AbstractJsonConverter implements JsonConverter{
 
@@ -21,61 +22,63 @@ public abstract class AbstractJsonConverter implements JsonConverter{
 
     protected List<JsonClassResult> convertJsonToJava(String json, String objectName, String packageName) {
         if(jsonValidator().isValidJson(json)){
-            List<JsonClassResult> javaClasses = new ArrayList<>();
-            convert(javaClasses, json,  objectName, packageName, new HashMap<String, Integer>());
+            Map<String, JavaClassBuilder> javaClasses = new HashMap<>();
 
-            return javaClasses;
+            convert(javaClasses, json,  objectName, packageName);
+
+            return javaClasses.
+                    values().
+                    stream().
+                    map(jcb -> new JsonClassResult(jcb.getClassName(), jcb.build())).
+                    collect(Collectors.toList());
         } else {
             throw new JsonToJavaException("JSON Schema is not valid");
         }
     }
 
-    private JsonClassResult convert(List<JsonClassResult> javaClasses, String json, String objectName, String packageName, Map<String, Integer> createdClasses) {
-        JsonClassResult jsonClassResult = null;
+    private JavaClassBuilder convert(Map<String, JavaClassBuilder> javaClasses, String json, String objectName, String packageName) {
+        JavaClassBuilder javaClassBuilder = null;
 
         if(jsonTypeChecker().isObject(json)) {
-            jsonClassResult = convertObject(javaClasses, new JSONObject(json), objectName, packageName, createdClasses);
+            javaClassBuilder = convertObject(javaClasses, new JSONObject(json), objectName, packageName);
         } else if(jsonTypeChecker().isArray(json)){
-            convertArray(javaClasses, new JSONArray(json), objectName, packageName, createdClasses);
+            javaClassBuilder = convertArray(javaClasses, new JSONArray(json), objectName, packageName);
         }
 
-        return jsonClassResult;
+        return javaClassBuilder;
     }
 
-    private JsonClassResult convertObject(List<JsonClassResult> javaClasses, JSONObject jsonObject, String objectName, String packageName, Map<String, Integer> createdClasses) {
-        JavaClassBuilder javaClassBuilder = new JavaClassBuilder(objectName, packageName);
+    private JavaClassBuilder convertObject(Map<String, JavaClassBuilder> javaClasses, JSONObject jsonObject, String objectName, String packageName) {
+        JavaClassBuilder javaClassBuilder = javaClasses.keySet().contains(objectName) ? javaClasses.get(objectName) : new JavaClassBuilder(objectName, packageName);
+        javaClasses.put(objectName, javaClassBuilder);
+
         for(String key : jsonObject.keySet()) {
             Object value = jsonObject.get(key);
             if(value != null && !"null".equals(value.toString())) {
                 PropertyType propertyType = PropertyTypeFinder.getPropertyType(value, jsonTypeChecker());
                 if(!SinglePropertyType.NEW.equals(propertyType)) {
-                    addProperty(javaClasses, javaClassBuilder, key, propertyType, value, packageName, createdClasses);
-                }
-                else {
-                    String className = getClassName(createdClasses, JavaClassBuilder.firstCharToUpperCase(key));
-                    JsonClassResult jsonClassResult = convert(javaClasses, value.toString(), className, packageName, createdClasses);
-                    if(jsonClassResult != null) {
-                        javaClassBuilder.addProperty(key, className);
+                    if(!javaClassBuilder.hasProperty(key)) {
+                        addProperty(javaClasses, javaClassBuilder, key, propertyType, value, packageName);
                     }
+                } else {
+                    JavaClassBuilder propertyJavaNewClass = convert(javaClasses, value.toString(), JavaClassBuilder.firstCharToUpperCase(key), packageName);
+                    javaClassBuilder.addProperty(key, propertyJavaNewClass.getClassName());
                 }
             }
         }
 
-        JsonClassResult jsonClassResult = new JsonClassResult(objectName, javaClassBuilder.build());
-        javaClasses.add(jsonClassResult);
-
-        return jsonClassResult;
+        return javaClassBuilder;
     }
 
-    private void convertArray(List<JsonClassResult> javaClasses, JSONArray jsonArray, String objectName, String packageName, Map<String, Integer> createdClasses) {
+    private JavaClassBuilder convertArray(Map<String, JavaClassBuilder> javaClasses, JSONArray jsonArray, String objectName, String packageName) {
         String jsonString = jsonArray.get(0).toString();
-        convert(javaClasses, jsonString,  objectName, packageName, createdClasses);
+        return convert(javaClasses, jsonString,  objectName, packageName);
     }
 
-    private void addProperty(List<JsonClassResult> javaClasses, JavaClassBuilder javaClassBuilder, String key, PropertyType propertyType, Object value, String packageName, Map<String, Integer> createdClasses) {
+    private void addProperty(Map<String, JavaClassBuilder> javaClasses, JavaClassBuilder javaClassBuilder, String key, PropertyType propertyType, Object value, String packageName) {
         if(propertyType instanceof ComplexPropertyType) {
             ComplexPropertyType complexPropertyType = (ComplexPropertyType) propertyType;
-            javaClassBuilder.addProperty(key, complexPropertyType, findGenericForList(javaClasses, key, value, packageName, createdClasses));
+            javaClassBuilder.addProperty(key, complexPropertyType, findGenericForList(javaClasses, key, value, packageName));
             if(complexPropertyType.hasToImport()) {
                javaClassBuilder.addImportStatement(complexPropertyType.getFqName());
             }
@@ -84,7 +87,7 @@ public abstract class AbstractJsonConverter implements JsonConverter{
         }
     }
 
-    protected String findGenericForList(List<JsonClassResult> javaClasses, String key, Object value, String packageName, Map<String, Integer> createdClasses) {
+    protected String findGenericForList(Map<String, JavaClassBuilder> javaClasses, String key, Object value, String packageName) {
         String type = "Object";
 
         HashSet<String> types = new HashSet<>();
@@ -93,8 +96,8 @@ public abstract class AbstractJsonConverter implements JsonConverter{
         for(int i = 0; i < jsonArray.length(); i++) {
             PropertyType propertyType = PropertyTypeFinder.getPropertyType(jsonArray.get(i), jsonTypeChecker());
             if(SinglePropertyType.NEW.equals(propertyType)) {
-                String className = getClassName(createdClasses, JavaClassBuilder.firstCharToUpperCase(key));
-                convert(javaClasses, value.toString(), className, packageName, createdClasses);
+                String className = JavaClassBuilder.firstCharToUpperCase(key);
+                convert(javaClasses, value.toString(), className, packageName);
                 types.add(className);
             } else {
                 types.add(propertyType.getDeclareName());
@@ -108,19 +111,5 @@ public abstract class AbstractJsonConverter implements JsonConverter{
             type = types.iterator().next();
         }
         return type;
-    }
-
-    private String getClassName(Map<String, Integer> createdClasses, String key) {
-        String className = key;
-
-        Integer count = createdClasses.get(key);
-        if(count == null){
-            createdClasses.put(key, 0);
-        } else {
-            createdClasses.put(key, ++count);
-            className = key + count;
-        }
-
-        return className;
     }
 }

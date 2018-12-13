@@ -1,16 +1,16 @@
-package integrationtest.expected;
+package integrationtest;
 
-public class Dog{
+public class Dog {
 
-    private Partner1 partner;
+    private Partner partner;
     private String name;
     private Integer age;
 
-    public Partner1 getPartner(){
+    public Partner getPartner(){
         return this.partner;
     }
 
-    public void setPartner(Partner1 partner){
+    public void setPartner(Partner partner){
         this.partner = partner;
     }
 
