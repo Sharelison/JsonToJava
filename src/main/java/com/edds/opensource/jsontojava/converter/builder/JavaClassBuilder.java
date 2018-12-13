@@ -18,6 +18,8 @@ public class JavaClassBuilder {
     private static final char METHOD_OPEN = '(';
     private static final char METHOD_CLOSED = ')';
 
+    private static final String JSONPROPERTY_IMPORT_STATEMENT = "com.fasterxml.jackson.annotation.JsonProperty";
+
     private String javaClassDeclaration;
 
     private StringBuilder properties;
@@ -38,7 +40,7 @@ public class JavaClassBuilder {
         importStatements = new StringBuilder();
         importedClasses = new HashSet<>();
         propertyKeyNames = new HashSet<>();
-        addImportStatement("com.fasterxml.jackson.annotation.JsonProperty");
+        addImportStatement(JSONPROPERTY_IMPORT_STATEMENT);
     }
 
     private void validClassNameAndPackageName(String className, String packagename) {
