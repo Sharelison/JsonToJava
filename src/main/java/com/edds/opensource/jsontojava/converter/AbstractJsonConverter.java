@@ -71,8 +71,13 @@ public abstract class AbstractJsonConverter implements JsonConverter{
     }
 
     private JavaClassBuilder convertArray(Map<String, JavaClassBuilder> javaClasses, JSONArray jsonArray, String objectName, String packageName) {
-        String jsonString = jsonArray.get(0).toString();
-        return convert(javaClasses, jsonString,  objectName, packageName);
+        JavaClassBuilder javaClassBuilder = null;
+
+        for(int i = 0; i < jsonArray.length(); i++) {
+            javaClassBuilder = convert(javaClasses, jsonArray.get(i).toString(),  objectName, packageName);
+        }
+
+        return javaClassBuilder;
     }
 
     private void addProperty(Map<String, JavaClassBuilder> javaClasses, JavaClassBuilder javaClassBuilder, String key, PropertyType propertyType, Object value, String packageName) {

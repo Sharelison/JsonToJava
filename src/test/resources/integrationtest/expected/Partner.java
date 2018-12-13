@@ -1,11 +1,18 @@
 package integrationtest;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Partner {
 
+    @JsonProperty("lastName")
     private String lastName;
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("dogName")
     private String dogName;
+    @JsonProperty("age")
     private Integer age;
+    @JsonProperty("dog")
     private Dog dog;
 
     public String getLastName(){
