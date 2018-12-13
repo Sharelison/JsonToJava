@@ -38,6 +38,7 @@ public class JavaClassBuilder {
         importStatements = new StringBuilder();
         importedClasses = new HashSet<>();
         propertyKeyNames = new HashSet<>();
+        addImportStatement("com.fasterxml.jackson.annotation.JsonProperty");
     }
 
     private void validClassNameAndPackageName(String className, String packagename) {
@@ -46,17 +47,19 @@ public class JavaClassBuilder {
     }
 
     public String build() {
-        return String.format(javaClassDeclaration, importStatements.toString(), properties.toString(), gettersAndSetters.toString());
+        return String.format(javaClassDeclaration, importStatements.toString() + NEW_LINE, properties.toString(), gettersAndSetters.toString());
     }
 
     public String getClassName() {
         return className;
     }
 
-    public void addProperty(String propertyName, String declareName) {
-        propertyName = removeUnwantedCharacters(propertyName);
+    public void addProperty(String originalPropertyName, String declareName) {
+        String propertyName = removeUnwantedCharacters(originalPropertyName);
         if(!propertyKeyNames.contains(propertyName)) {
             properties
+                    .append(BIG_SPACE)
+                    .append("@JsonProperty(").append(originalPropertyName).append("\"").append(METHOD_CLOSED).append(NEW_LINE)
                     .append(BIG_SPACE)
                     .append("private ")
                     .append(declareName)
@@ -69,11 +72,13 @@ public class JavaClassBuilder {
         }
     }
 
-    public void addProperty(String propertyName, ComplexPropertyType complexPropertyType, String genericType) {
-        propertyName = removeUnwantedCharacters(propertyName);
+    public void addProperty(String originalPropertyName, ComplexPropertyType complexPropertyType, String genericType) {
+        String propertyName = removeUnwantedCharacters(originalPropertyName);
         if(!propertyKeyNames.contains(propertyName)) {
             String declareName = String.format(complexPropertyType.getDeclareName(), genericType);
             properties
+                    .append(BIG_SPACE)
+                    .append("@JsonProperty(").append(originalPropertyName).append("\"").append(METHOD_CLOSED).append(NEW_LINE)
                     .append(BIG_SPACE)
                     .append("private ")
                     .append(declareName)
@@ -88,7 +93,7 @@ public class JavaClassBuilder {
 
     public void addImportStatement(String importStatement) {
         if(!importedClasses.contains(importStatement)) {
-            importStatements.append("import ").append(importStatement).append(END_STATEMENT).append(DOUBLE_NEW_LINE);
+            importStatements.append("import ").append(importStatement).append(END_STATEMENT).append(NEW_LINE);
             importedClasses.add(importStatement);
         }
     }

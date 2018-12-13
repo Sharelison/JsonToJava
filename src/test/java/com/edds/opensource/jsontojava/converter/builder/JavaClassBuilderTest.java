@@ -22,8 +22,11 @@ public class JavaClassBuilderTest {
 
         String expectedClass = "package sdf;"+newLine +
                 newLine +
-                "public class B {"+newLine+
+                "import com.fasterxml.jackson.annotation.JsonProperty;"+newLine +
                 newLine +
+                "public class B {"+newLine +
+                newLine +
+                "    @JsonProperty(propName\")"+newLine +
                 "    private PropName propName;"+newLine +
                 newLine +
                 "    public PropName getPropName(){"+newLine +
@@ -32,7 +35,7 @@ public class JavaClassBuilderTest {
                 newLine +
                 "    public void setPropName(PropName propName){"+newLine +
                 "        this.propName = propName;"+newLine +
-                "    }" + newLine +
+                "    }"+newLine +
                 newLine +
                 "}";
 
@@ -56,7 +59,7 @@ public class JavaClassBuilderTest {
     @Test
     public void declareClassShouldDeclareClassForGivenNameAndPackage() {
        JavaClassBuilder javaClassBuilder = new JavaClassBuilder("A", "a.b");
-       Assert.assertEquals("package a.b;"+newLine+newLine+ "public class A {"+newLine+newLine+newLine+ "}", javaClassBuilder.build());
+       Assert.assertEquals("package a.b;"+newLine+newLine+"import com.fasterxml.jackson.annotation.JsonProperty;"+newLine+newLine+ "public class A {"+newLine+newLine+newLine+ "}", javaClassBuilder.build());
     }
 
     @Test

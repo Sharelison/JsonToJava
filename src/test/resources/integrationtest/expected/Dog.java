@@ -1,9 +1,14 @@
 package integrationtest;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Dog {
 
+    @JsonProperty(partner")
     private Partner partner;
+    @JsonProperty(name")
     private String name;
+    @JsonProperty(age")
     private Integer age;
 
     public Partner getPartner(){

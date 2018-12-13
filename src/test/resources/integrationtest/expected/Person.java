@@ -1,12 +1,17 @@
 package integrationtest;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 public class Person {
 
+    @JsonProperty(lastName")
     private String lastName;
+    @JsonProperty(partner")
     private Partner partner;
+    @JsonProperty(children")
     private List<Children> children;
+    @JsonProperty(name")
     private String name;
 
     public String getLastName(){

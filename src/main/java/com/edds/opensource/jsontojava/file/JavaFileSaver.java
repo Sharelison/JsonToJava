@@ -22,7 +22,7 @@ public class JavaFileSaver implements FileSaver {
                 throw new JsonToJavaException(UNEXPECTED_ERR_MSG);
             }
         } catch (IOException ioException) {
-            throw new JsonToJavaException("IO error while trying path save " + objectName, ioException);
+            throw new JsonToJavaException("IO error while trying to save file: " + objectName, ioException);
         } catch (RuntimeException runTimeException) {
             throw new JsonToJavaException(UNEXPECTED_ERR_MSG + objectName, runTimeException);
         }
