@@ -4,6 +4,10 @@
   "children": [{
     "name": "John jr",
     "lastName": "Doe"
+  },{
+    "name": "John jr",
+    "lastName": "Doe",
+    "job": "Developer"
   }],
   "partner": {
     "name": "www",
