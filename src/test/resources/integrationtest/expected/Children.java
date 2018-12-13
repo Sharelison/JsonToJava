@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Children {
 
-    @JsonProperty(lastName")
+    @JsonProperty("lastName")
     private String lastName;
-    @JsonProperty(name")
+    @JsonProperty("name")
     private String name;
 
     public String getLastName(){

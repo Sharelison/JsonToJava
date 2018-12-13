@@ -26,7 +26,7 @@ public class JavaClassBuilderTest {
                 newLine +
                 "public class B {"+newLine +
                 newLine +
-                "    @JsonProperty(propName\")"+newLine +
+                "    @JsonProperty(\"propName\")"+newLine +
                 "    private PropName propName;"+newLine +
                 newLine +
                 "    public PropName getPropName(){"+newLine +

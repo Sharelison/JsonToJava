@@ -61,7 +61,7 @@ public class JavaClassBuilder {
         if(!propertyKeyNames.contains(propertyName)) {
             properties
                     .append(BIG_SPACE)
-                    .append("@JsonProperty(").append(originalPropertyName).append("\"").append(METHOD_CLOSED).append(NEW_LINE)
+                    .append("@JsonProperty(\"").append(originalPropertyName).append("\"").append(METHOD_CLOSED).append(NEW_LINE)
                     .append(BIG_SPACE)
                     .append("private ")
                     .append(declareName)
@@ -80,7 +80,7 @@ public class JavaClassBuilder {
             String declareName = String.format(complexPropertyType.getDeclareName(), genericType);
             properties
                     .append(BIG_SPACE)
-                    .append("@JsonProperty(").append(originalPropertyName).append("\"").append(METHOD_CLOSED).append(NEW_LINE)
+                    .append("@JsonProperty(\"").append(originalPropertyName).append("\"").append(METHOD_CLOSED).append(NEW_LINE)
                     .append(BIG_SPACE)
                     .append("private ")
                     .append(declareName)

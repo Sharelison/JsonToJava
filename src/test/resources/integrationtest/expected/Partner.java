@@ -4,15 +4,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Partner {
 
-    @JsonProperty(lastName")
+    @JsonProperty("lastName")
     private String lastName;
-    @JsonProperty(name")
+    @JsonProperty("name")
     private String name;
-    @JsonProperty(dogName")
+    @JsonProperty("dogName")
     private String dogName;
-    @JsonProperty(age")
+    @JsonProperty("age")
     private Integer age;
-    @JsonProperty(dog")
+    @JsonProperty("dog")
     private Dog dog;
 
     public String getLastName(){

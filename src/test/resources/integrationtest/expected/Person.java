@@ -5,13 +5,13 @@ import java.util.List;
 
 public class Person {
 
-    @JsonProperty(lastName")
+    @JsonProperty("lastName")
     private String lastName;
-    @JsonProperty(partner")
+    @JsonProperty("partner")
     private Partner partner;
-    @JsonProperty(children")
+    @JsonProperty("children")
     private List<Children> children;
-    @JsonProperty(name")
+    @JsonProperty("name")
     private String name;
 
     public String getLastName(){
