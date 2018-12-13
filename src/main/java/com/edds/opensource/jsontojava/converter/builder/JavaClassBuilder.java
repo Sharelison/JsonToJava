@@ -109,7 +109,7 @@ public class JavaClassBuilder {
                 .append("package ").append(packagename).append(END_STATEMENT)
                 .append(DOUBLE_NEW_LINE)
                 .append("%s") //import statements
-                .append("public class ").append(className).append(SPACE)
+                .append("public class ").append(this.className).append(SPACE)
                 .append(BLOCK_OPEN)
                 .append(DOUBLE_NEW_LINE)
                 .append("%s") //properties
