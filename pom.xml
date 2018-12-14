@@ -16,7 +16,6 @@
 
         <junit.version>4.12</junit.version>
         <mockito.version>1.10.19</mockito.version>
-        <jackson-annotations.version>2.9.6</jackson-annotations.version>
     </properties>
 
     <scm>
@@ -54,11 +53,6 @@
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>${org.json.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>${jackson-annotations.version}</version>
         </dependency>
 
         <!-- TEST -->
