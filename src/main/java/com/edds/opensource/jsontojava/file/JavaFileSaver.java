@@ -9,7 +9,7 @@ import java.io.IOException;
 public class JavaFileSaver implements FileSaver {
 
     private static final String JAVA_FILE_EXTENSION = ".java";
-    private static final String UNEXPECTED_ERR_MSG = "Unexpected error while trying path save ";
+    private static final String UNEXPECTED_ERR_MSG = "Unexpected error while trying to save java file";
 
     @Override
     public void saveJavaFile(String java, String objectName, String outputFolder) {
