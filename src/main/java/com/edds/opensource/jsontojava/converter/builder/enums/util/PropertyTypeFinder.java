@@ -9,7 +9,7 @@ public final class PropertyTypeFinder {
 
     private PropertyTypeFinder() {}
 
-    public final static PropertyType getPropertyType(Object object, JsonTypeChecker jsonTypeChecker) {
+    public static PropertyType getPropertyType(Object object, JsonTypeChecker jsonTypeChecker) {
         PropertyType propertyType = SinglePropertyType.NEW;
 
         if(!jsonTypeChecker.isArray(object.toString())) {

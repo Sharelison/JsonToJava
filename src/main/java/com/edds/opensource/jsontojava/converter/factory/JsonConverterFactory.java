@@ -39,7 +39,7 @@ public class JsonConverterFactory {
     }
 
     private boolean hasExtension(String json) {
-        String extension = json.substring(json.lastIndexOf(".") + 1);
+        String extension = json.substring(json.lastIndexOf('.') + 1);
         return !extension.isEmpty() && supportedExtensions.contains(extension);
     }
 }

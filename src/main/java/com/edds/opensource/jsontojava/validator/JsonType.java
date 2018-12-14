@@ -10,7 +10,7 @@ public class JsonType implements JsonTypeChecker {
         boolean success = true;
 
         try {
-            JSONObject jsonObject = new JSONObject(json);
+            new JSONObject(json);
         } catch (JSONException jsonException) {
             success = false;
         }
@@ -22,7 +22,7 @@ public class JsonType implements JsonTypeChecker {
         boolean success = true;
 
         try {
-            JSONArray jsonArray = new JSONArray(json);
+            new JSONArray(json);
         } catch (JSONException jsonException) {
             success = false;
         }
