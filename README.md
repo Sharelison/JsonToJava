@@ -17,7 +17,7 @@ Example with maven:
 
     <dependencies>
        <dependency>
-            <groupId>com.edds.opensource</groupId>
+            <groupId>io.github.sharelison</groupId>
             <artifactId>jsontojava</artifactId>
             <version>1.0-SNAPSHOT</version>
        </dependency>
