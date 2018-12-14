@@ -152,27 +152,27 @@ public class JavaClassBuilder {
                 .append(DOUBLE_NEW_LINE);
     }
 
-    private String removeUnwantedCharacters(String className){
-        StringBuilder classStringBuilder = new StringBuilder();
+    private String removeUnwantedCharacters(String javaIdentifier){
+        StringBuilder validJavaIdentifier = new StringBuilder();
 
-        char[] givenClassChars = className.toCharArray();
+        char[] givenClassChars = javaIdentifier.toCharArray();
         for(int i = 0; i < givenClassChars.length; i++){
             char character = givenClassChars[i];
             if(Character.isJavaIdentifierPart(character)) {
                 if(i == 0) {
                     if(Character.isJavaIdentifierStart(character)) {
-                        classStringBuilder.append(character);
+                        validJavaIdentifier.append(character);
                     }
                 } else {
-                    classStringBuilder.append(character);
+                    validJavaIdentifier.append(character);
                 }
             }
         }
 
-        if(classStringBuilder.length() == 0){
+        if(validJavaIdentifier.length() == 0){
             throw new JsonToJavaException("No valid characters in class name or property name");
         }
 
-        return classStringBuilder.toString();
+        return validJavaIdentifier.toString();
     }
 }
