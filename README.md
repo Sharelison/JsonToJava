@@ -48,6 +48,16 @@ List<JsonClassResult> jsonResult = jsonToJava.jsonToJava(pathToJsonFile, "MyJson
  
  * [JsonToPojoGenerator](https://github.com/Sharelison/JsonToPojoGenerator)
 
+## Branches
+
+This repository has 2 branches: 
+ * master
+ * jsontojava-without-jsonproperty-annotation 
+ 
+  The difference between the 2 versions is that the fields/properties of the generated POJOs in the master branch are annotated with the @JsonProperty of the fasterxml/jackson library. 
+  In the branch 'jsontojava-without-jsonproperty-annotation' there is no annotation provided for the fields/properties of the generated POJOs.
+  
+
 ## Built With
 
 * [Maven](https://maven.apache.org/) - Dependency Management
