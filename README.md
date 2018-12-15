@@ -14,7 +14,7 @@ Add library as a dependency to your project to get started.
 ##### Manually download JAR 
 Download the following JAR and add it to your classpath:
 
-   * [jsontojava.jar](https://search.maven.org/artifact/io.github.sharelison/jsontojava/1.0.0/jar)
+   * [jsontojava.jar](https://repo1.maven.org/maven2/io/github/sharelison/jsontojava/1.0.0/jsontojava-1.0.0.jar)
 
 
 ##### Maven
