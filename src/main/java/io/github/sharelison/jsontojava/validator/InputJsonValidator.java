@@ -13,7 +13,7 @@ public class InputJsonValidator implements JsonValidator{
 
     /**
      * Default is {@link io.github.sharelison.jsontojava.validator.JsonType}
-     * @param jsonTypeChecker
+     * @param jsonTypeChecker used to check weather given string is a jsonstring or jsonobject
      */
     public InputJsonValidator(JsonTypeChecker jsonTypeChecker) {
         this.jsonTypeChecker = jsonTypeChecker;

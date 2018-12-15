@@ -1,7 +1,6 @@
 package io.github.sharelison.jsontojava.converter;
 
 import io.github.sharelison.jsontojava.constants.JsonToJavaConstants;
-import io.github.sharelison.jsontojava.model.JsonClassResult;
 import io.github.sharelison.jsontojava.validator.InputJsonValidator;
 import io.github.sharelison.jsontojava.validator.JsonType;
 import io.github.sharelison.jsontojava.validator.JsonTypeChecker;
@@ -32,9 +31,10 @@ public class StringJsonConverter extends AbstractJsonConverter{
     /**
      * converts a json string to a java class (and child classes)
      * given a json that contains an array the first item in the array will be parsed
-     * @param json
-     * @param objectName
-     * @return
+     * @param json json string to be converted into java classes
+     * @param objectName name of the root class name
+     * @param withAnnotations specify weather class should be generated with json annotations.
+     * @return a list of {@link JsonClassResult} objects
      */
     @Override
     public List<JsonClassResult> convertToJava(String json, String objectName, String packageName, boolean withAnnotations) {

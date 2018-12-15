@@ -3,7 +3,6 @@ package io.github.sharelison.jsontojava.converter;
 import io.github.sharelison.jsontojava.constants.JsonToJavaConstants;
 import io.github.sharelison.jsontojava.file.FileReader;
 import io.github.sharelison.jsontojava.file.JsonFileReader;
-import io.github.sharelison.jsontojava.model.JsonClassResult;
 import io.github.sharelison.jsontojava.validator.InputJsonValidator;
 import io.github.sharelison.jsontojava.validator.JsonType;
 import io.github.sharelison.jsontojava.validator.JsonTypeChecker;
@@ -38,13 +37,14 @@ public class FileJsonConverter extends AbstractJsonConverter{
     /**
      * converts a json path (json in given filepath) to a java class (and child classes)
      * given a json that contains an array the first item in the array will be parsed
-     * @param json
-     * @param objectName
-     * @return
+     * @param jsonPath path to jsonFile
+     * @param objectName name of the root class name
+     * @param withAnnotations specify weather class should be generated with json annotations.
+     * @return a list of {@link JsonClassResult} objects
      */
     @Override
-    public List<JsonClassResult> convertToJava(String json, String objectName, String packageName, boolean withAnnotations) {
-        String jsonString = fileReader.readJsonFromFile(json);
+    public List<JsonClassResult> convertToJava(String jsonPath, String objectName, String packageName, boolean withAnnotations) {
+        String jsonString = fileReader.readJsonFromFile(jsonPath);
         return convertJsonToJava(jsonString, objectName, packageName, withAnnotations);
     }
 

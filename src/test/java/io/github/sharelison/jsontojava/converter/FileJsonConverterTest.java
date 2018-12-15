@@ -1,7 +1,6 @@
 package io.github.sharelison.jsontojava.converter;
 
 import io.github.sharelison.jsontojava.file.FileReader;
-import io.github.sharelison.jsontojava.model.JsonClassResult;
 import io.github.sharelison.jsontojava.validator.JsonTypeChecker;
 import io.github.sharelison.jsontojava.validator.JsonValidator;
 import org.junit.After;

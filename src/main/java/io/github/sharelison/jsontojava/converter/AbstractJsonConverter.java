@@ -6,7 +6,6 @@ import io.github.sharelison.jsontojava.converter.builder.enums.PropertyType;
 import io.github.sharelison.jsontojava.converter.builder.enums.SinglePropertyType;
 import io.github.sharelison.jsontojava.converter.builder.enums.util.PropertyTypeFinder;
 import io.github.sharelison.jsontojava.exception.JsonToJavaException;
-import io.github.sharelison.jsontojava.model.JsonClassResult;
 import io.github.sharelison.jsontojava.validator.JsonTypeChecker;
 import io.github.sharelison.jsontojava.validator.JsonValidator;
 import org.json.JSONArray;
