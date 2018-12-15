@@ -55,7 +55,7 @@ public abstract class AbstractJsonConverter implements JsonConverter{
 
         for(String key : jsonObject.keySet()) {
             Object value = jsonObject.get(key);
-            if(value != null && !"null".equals(value.toString())) {
+            if(value != null && !(!(value instanceof String) && "null".equals(value.toString()))) {
                 PropertyType propertyType = PropertyTypeFinder.getPropertyType(value, jsonTypeChecker());
                 if(!SinglePropertyType.NEW.equals(propertyType)) {
                     if(!javaClassBuilder.hasProperty(key)) {
