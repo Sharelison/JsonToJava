@@ -65,6 +65,8 @@ public abstract class AbstractJsonConverter implements JsonConverter{
                     JavaClassBuilder propertyJavaNewClass = convert(javaClasses, value.toString(), JavaClassBuilder.firstCharToUpperCase(key), packageName, withAnnotations);
                     javaClassBuilder.addProperty(key, propertyJavaNewClass.getClassName());
                 }
+            } else {
+                javaClassBuilder.addProperty(key, SinglePropertyType.OBJECT.getDeclareName());
             }
         }
 
@@ -94,7 +96,7 @@ public abstract class AbstractJsonConverter implements JsonConverter{
     }
 
     protected String findGenericForList(Map<String, JavaClassBuilder> javaClasses, String key, Object value, String packageName, boolean withAnnotations) {
-        String type = "Object";
+        String type = SinglePropertyType.OBJECT.getDeclareName();
 
         HashSet<String> types = new HashSet<>();
 

@@ -6,7 +6,8 @@ public enum SinglePropertyType implements PropertyType {
     STRING("String"),
     INTEGER("Integer"),
     DOUBLE("Double"),
-    BOOLEAN("boolean");
+    BOOLEAN("boolean"),
+    OBJECT("Object");
 
     private final String declareName;
 
