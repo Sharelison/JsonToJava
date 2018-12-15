@@ -39,7 +39,7 @@
     <scm>
         <url>https://github.com/Sharelison/JsonToJava</url>
         <connection>scm:git:git@github.com:sharelison/JsonToJava.git</connection>
-        <developerConnection>scm:git:git@github.com:sharelison/JsonToJava.git</developerConnection>
+        <developerConnection>https://github.com/Sharelison/JsonToJava.git</developerConnection>
     </scm>
 
     <developers>
