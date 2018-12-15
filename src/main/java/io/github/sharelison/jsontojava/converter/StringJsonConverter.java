@@ -1,5 +1,7 @@
 package io.github.sharelison.jsontojava.converter;
 
+import io.github.sharelison.jsontojava.constants.JsonToJavaConstants;
+import io.github.sharelison.jsontojava.model.JsonClassResult;
 import io.github.sharelison.jsontojava.validator.InputJsonValidator;
 import io.github.sharelison.jsontojava.validator.JsonType;
 import io.github.sharelison.jsontojava.validator.JsonTypeChecker;
@@ -35,9 +37,13 @@ public class StringJsonConverter extends AbstractJsonConverter{
      * @return
      */
     @Override
-    public List<JsonClassResult> convertToJava(String json, String objectName, String packageName) {
-        return convertJsonToJava(json, objectName, packageName);
+    public List<JsonClassResult> convertToJava(String json, String objectName, String packageName, boolean withAnnotations) {
+        return convertJsonToJava(json, objectName, packageName, withAnnotations);
+    }
 
+    @Override
+    public List<JsonClassResult> convertToJava(String json, String objectName, String packageName) {
+        return convertToJava(json, objectName, packageName, JsonToJavaConstants.DEFAULT_FOR_WITH_ANNOTATIONS);
     }
 
     @Override

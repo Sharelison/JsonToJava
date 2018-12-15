@@ -1,4 +1,4 @@
-package io.github.sharelison.jsontojava.converter;
+package io.github.sharelison.jsontojava.model;
 
 public class JsonClassResult {
 

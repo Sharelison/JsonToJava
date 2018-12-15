@@ -1,8 +1,9 @@
 package io.github.sharelison.jsontojava;
 
+import io.github.sharelison.jsontojava.constants.JsonToJavaConstants;
 import io.github.sharelison.jsontojava.converter.JsonConverter;
 import io.github.sharelison.jsontojava.converter.factory.JsonConverterFactory;
-import io.github.sharelison.jsontojava.converter.JsonClassResult;
+import io.github.sharelison.jsontojava.model.JsonClassResult;
 import io.github.sharelison.jsontojava.exception.JsonToJavaException;
 import io.github.sharelison.jsontojava.file.FileReader;
 import io.github.sharelison.jsontojava.file.FileSaver;
@@ -44,9 +45,25 @@ public class JsonToJava {
     }
 
     public void jsonToJava(String json, String objectName, String packageName, String outputDir) {
+        jsonToJava(json, objectName, packageName, outputDir, JsonToJavaConstants.DEFAULT_FOR_WITH_ANNOTATIONS);
+    }
+
+    public List<JsonClassResult> jsonToJava(String json, String objectName, String packageName){
+        return jsonToJava(json, objectName, packageName, JsonToJavaConstants.DEFAULT_FOR_WITH_ANNOTATIONS);
+    }
+
+    /***
+     *
+     * @param json
+     * @param objectName
+     * @param packageName
+     * @param outputDir
+     * @param withAnnotations -> true by default
+     */
+    public void jsonToJava(String json, String objectName, String packageName, String outputDir, boolean withAnnotations) {
         initializeJsonConverter(json);
 
-        List<JsonClassResult> javaClassResult = jsonConverter.convertToJava(json, objectName, packageName);
+        List<JsonClassResult> javaClassResult = jsonConverter.convertToJava(json, objectName, packageName, withAnnotations);
         if(fileSaver != null){
             javaClassResult
                     .parallelStream()
@@ -56,9 +73,17 @@ public class JsonToJava {
         }
     }
 
-    public List<JsonClassResult> jsonToJava(String json, String objectName, String packageName){
+    /***
+     *
+     * @param json
+     * @param objectName
+     * @param packageName
+     * @param withAnnotations -> true by default!
+     * @return
+     */
+    public List<JsonClassResult> jsonToJava(String json, String objectName, String packageName, boolean withAnnotations){
         initializeJsonConverter(json);
-        return jsonConverter.convertToJava(json, objectName, packageName);
+        return jsonConverter.convertToJava(json, objectName, packageName, withAnnotations);
     }
 
     private synchronized void initializeJsonConverter(String json) {

@@ -1,5 +1,6 @@
 package io.github.sharelison.jsontojava.converter.builder;
 
+import io.github.sharelison.jsontojava.constants.JsonToJavaConstants;
 import io.github.sharelison.jsontojava.converter.builder.enums.ComplexPropertyType;
 import io.github.sharelison.jsontojava.exception.JsonToJavaException;
 
@@ -32,6 +33,8 @@ public class JavaClassBuilder {
 
     private String className;
 
+    private boolean withAnnotations = JsonToJavaConstants.DEFAULT_FOR_WITH_ANNOTATIONS;
+
     public JavaClassBuilder(String className, String packagename) {
         validClassNameAndPackageName(className, packagename);
         declareClass(JavaClassBuilder.firstCharToUpperCase(className), packagename);
@@ -43,13 +46,28 @@ public class JavaClassBuilder {
         addImportStatement(JSONPROPERTY_IMPORT_STATEMENT);
     }
 
+    public JavaClassBuilder(String className, String packagename, boolean withAnnotations) {
+        validClassNameAndPackageName(className, packagename);
+        declareClass(JavaClassBuilder.firstCharToUpperCase(className), packagename);
+        this.withAnnotations = withAnnotations;
+        properties = new StringBuilder();
+        gettersAndSetters = new StringBuilder();
+        importStatements = new StringBuilder();
+        importedClasses = new HashSet<>();
+        propertyKeyNames = new HashSet<>();
+
+        if(this.withAnnotations)
+           addImportStatement(JSONPROPERTY_IMPORT_STATEMENT);
+    }
+
     private void validClassNameAndPackageName(String className, String packagename) {
         if(className == null || className.isEmpty() || packagename == null || packagename.isEmpty())
             throw new JsonToJavaException("Class name or package name is empty");
     }
 
     public String build() {
-        return String.format(javaClassDeclaration, importStatements.toString() + NEW_LINE, properties.toString(), gettersAndSetters.toString());
+        String actualImportStatements = importStatements.length() == 0 ? "" : importStatements.toString() + NEW_LINE;
+        return String.format(javaClassDeclaration, actualImportStatements, properties.toString(), gettersAndSetters.toString());
     }
 
     public String getClassName() {
@@ -59,18 +77,25 @@ public class JavaClassBuilder {
     public void addProperty(String originalPropertyName, String declareName) {
         String propertyName = removeUnwantedCharacters(originalPropertyName);
         if(!propertyKeyNames.contains(propertyName)) {
+            appendAnnotations(originalPropertyName);
             properties
-                    .append(BIG_SPACE)
-                    .append("@JsonProperty(\"").append(originalPropertyName).append("\"").append(METHOD_CLOSED).append(NEW_LINE)
-                    .append(BIG_SPACE)
-                    .append("private ")
-                    .append(declareName)
-                    .append(SPACE)
-                    .append(propertyName)
-                    .append(END_STATEMENT)
-                    .append(NEW_LINE);
+                .append(BIG_SPACE)
+                .append("private ")
+                .append(declareName)
+                .append(SPACE)
+                .append(propertyName)
+                .append(END_STATEMENT)
+                .append(NEW_LINE);
             addGettersAndSetters(propertyName, declareName);
             propertyKeyNames.add(propertyName);
+        }
+    }
+
+    private void appendAnnotations(String originalPropertyName) {
+        if(this.withAnnotations) {
+            properties
+                    .append(BIG_SPACE)
+                    .append("@JsonProperty(\"").append(originalPropertyName).append("\"").append(METHOD_CLOSED).append(NEW_LINE);
         }
     }
 
@@ -78,9 +103,8 @@ public class JavaClassBuilder {
         String propertyName = removeUnwantedCharacters(originalPropertyName);
         if(!propertyKeyNames.contains(propertyName)) {
             String declareName = String.format(complexPropertyType.getDeclareName(), genericType);
+            appendAnnotations(originalPropertyName);
             properties
-                    .append(BIG_SPACE)
-                    .append("@JsonProperty(\"").append(originalPropertyName).append("\"").append(METHOD_CLOSED).append(NEW_LINE)
                     .append(BIG_SPACE)
                     .append("private ")
                     .append(declareName)

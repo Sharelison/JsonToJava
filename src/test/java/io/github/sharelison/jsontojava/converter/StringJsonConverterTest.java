@@ -1,5 +1,6 @@
 package io.github.sharelison.jsontojava.converter;
 
+import io.github.sharelison.jsontojava.model.JsonClassResult;
 import io.github.sharelison.jsontojava.test.JsonToJavaTestConstants;
 import io.github.sharelison.jsontojava.validator.JsonTypeChecker;
 import io.github.sharelison.jsontojava.validator.JsonValidator;

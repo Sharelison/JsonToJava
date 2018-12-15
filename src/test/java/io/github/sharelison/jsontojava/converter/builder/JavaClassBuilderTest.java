@@ -89,4 +89,27 @@ public class JavaClassBuilderTest {
     public void constructorShouldThrowExceptionForEmptyClassName() {
         new JavaClassBuilder("fsdhg", "");
     }
+
+    @Test
+    public void shouldNotAddAnnotationsForWithAnnotationsIsDisabled() {
+        JavaClassBuilder javaClassBuilder = new JavaClassBuilder("B", "sdf", false);
+        javaClassBuilder.addProperty("propName", "PropName");
+
+        String expectedClass = "package sdf;"+newLine +
+                newLine +
+                "public class B {"+newLine +
+                newLine +
+                "    private PropName propName;"+newLine +
+                newLine +
+                "    public PropName getPropName(){"+newLine +
+                "        return this.propName;"+newLine +
+                "    }"+newLine +
+                newLine +
+                "    public void setPropName(PropName propName){"+newLine +
+                "        this.propName = propName;"+newLine +
+                "    }"+newLine +
+                newLine +
+                "}";
+
+        Assert.assertEquals(expectedClass, javaClassBuilder.build());    }
 }

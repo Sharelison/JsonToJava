@@ -1,7 +1,9 @@
 package io.github.sharelison.jsontojava.converter;
 
+import io.github.sharelison.jsontojava.constants.JsonToJavaConstants;
 import io.github.sharelison.jsontojava.file.FileReader;
 import io.github.sharelison.jsontojava.file.JsonFileReader;
+import io.github.sharelison.jsontojava.model.JsonClassResult;
 import io.github.sharelison.jsontojava.validator.InputJsonValidator;
 import io.github.sharelison.jsontojava.validator.JsonType;
 import io.github.sharelison.jsontojava.validator.JsonTypeChecker;
@@ -41,9 +43,14 @@ public class FileJsonConverter extends AbstractJsonConverter{
      * @return
      */
     @Override
-    public List<JsonClassResult> convertToJava(String json, String objectName, String packageName) {
+    public List<JsonClassResult> convertToJava(String json, String objectName, String packageName, boolean withAnnotations) {
         String jsonString = fileReader.readJsonFromFile(json);
-        return convertJsonToJava(jsonString, objectName, packageName);
+        return convertJsonToJava(jsonString, objectName, packageName, withAnnotations);
+    }
+
+    @Override
+    public List<JsonClassResult> convertToJava(String json, String objectName, String packageName) {
+        return convertToJava(json, objectName, packageName, JsonToJavaConstants.DEFAULT_FOR_WITH_ANNOTATIONS);
     }
 
     @Override
