@@ -23,6 +23,8 @@ public class JsonToJavaTest {
     public static final String ACTUAL_PARTNER = "src/test/resources/integrationtest/actual/Partner.java";
     public static final String EXPECTED_DOG= "src/test/resources/integrationtest/expected/Dog.java";
     public static final String ACTUAL_DOG = "src/test/resources/integrationtest/actual/Dog.java";
+    public static final String EXPECTED_PP= "src/test/resources/integrationtest/expected/Pp.java";
+    public static final String ACTUAL_PP = "src/test/resources/integrationtest/actual/Pp.java";
 
     @Test
     public void testExpectedPersonJavaFile() throws IOException {
@@ -34,6 +36,7 @@ public class JsonToJavaTest {
         Assert.assertEquals(Files.readAllLines(Paths.get(EXPECTED_CHILDREN)), Files.readAllLines(Paths.get(ACTUAL_CHILDREN)));
         Assert.assertEquals(Files.readAllLines(Paths.get(EXPECTED_PARTNER)), Files.readAllLines(Paths.get(ACTUAL_PARTNER)));
         Assert.assertEquals(Files.readAllLines(Paths.get(EXPECTED_DOG)), Files.readAllLines(Paths.get(ACTUAL_DOG)));
+        Assert.assertEquals(Files.readAllLines(Paths.get(EXPECTED_PP)), Files.readAllLines(Paths.get(ACTUAL_PP)));
     }
 
     @After
@@ -42,5 +45,6 @@ public class JsonToJavaTest {
         Files.delete(Paths.get(ACTUAL_CHILDREN));
         Files.delete(Paths.get(ACTUAL_PARTNER));
         Files.delete(Paths.get(ACTUAL_DOG));
+        Files.delete(Paths.get(ACTUAL_PP));
     }
 }

@@ -5,6 +5,8 @@ import java.util.List;
 
 public class Person {
 
+    @JsonProperty("pp")
+    private List<List<Pp>> pp;
     @JsonProperty("lastName")
     private String lastName;
     @JsonProperty("partner")
@@ -13,6 +15,14 @@ public class Person {
     private List<Children> children;
     @JsonProperty("name")
     private String name;
+
+    public List<List<Pp>> getPp(){
+        return this.pp;
+    }
+
+    public void setPp(List<List<Pp>> pp){
+        this.pp = pp;
+    }
 
     public String getLastName(){
         return this.lastName;

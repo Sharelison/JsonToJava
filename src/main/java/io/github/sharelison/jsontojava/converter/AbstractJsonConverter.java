@@ -101,11 +101,14 @@ public abstract class AbstractJsonConverter implements JsonConverter{
 
         JSONArray jsonArray = new JSONArray(value.toString());
         for(int i = 0; i < jsonArray.length(); i++) {
-            PropertyType propertyType = PropertyTypeFinder.getPropertyType(jsonArray.get(i), jsonTypeChecker());
+            Object valueInList = jsonArray.get(i);
+            PropertyType propertyType = PropertyTypeFinder.getPropertyType(valueInList, jsonTypeChecker());
             if(SinglePropertyType.NEW.equals(propertyType)) {
                 String className = JavaClassBuilder.firstCharToUpperCase(key);
                 convert(javaClasses, value.toString(), className, packageName, withAnnotations);
                 types.add(className);
+            } else if (propertyType instanceof ComplexPropertyType) {
+                types.add(String.format(propertyType.getDeclareName(), findGenericForList(javaClasses, key, valueInList, packageName, withAnnotations)));
             } else {
                 types.add(propertyType.getDeclareName());
                 if(types.size() > 1) {
