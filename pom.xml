@@ -4,7 +4,7 @@
 
     <groupId>io.github.sharelison</groupId>
     <artifactId>jsontojava</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -39,7 +39,7 @@
         <url>https://github.com/Sharelison/JsonToJava</url>
         <connection>scm:git:https://github.com/sharelison/JsonToJava.git</connection>
         <developerConnection>scm:git:https://github.com/sharelison/JsonToJava.git</developerConnection>
-      <tag>HEAD</tag>
+      <tag>jsontojava-1.0.1</tag>
   </scm>
 
     <developers>
