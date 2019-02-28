@@ -41,10 +41,10 @@ public class JsonToJavaWithoutAnnotationsTest {
 
     @After
     public void clearActualOutput() throws IOException {
-       // Files.delete(Paths.get(ACTUAL_PERSON));
+        Files.delete(Paths.get(ACTUAL_PERSON));
         Files.delete(Paths.get(ACTUAL_CHILDREN));
         Files.delete(Paths.get(ACTUAL_PARTNER));
         Files.delete(Paths.get(ACTUAL_DOG));
-       // Files.delete(Paths.get(ACTUAL_PP));
+        Files.delete(Paths.get(ACTUAL_PP));
     }
 }
