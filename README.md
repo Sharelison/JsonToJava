@@ -24,7 +24,7 @@ Add dependency io.github.sharelison:jsontojava in your POM.
        <dependency>
             <groupId>io.github.sharelison</groupId>
             <artifactId>jsontojava</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
        </dependency>
     </dependencies>
 
